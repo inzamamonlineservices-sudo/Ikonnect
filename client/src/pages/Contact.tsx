@@ -32,10 +32,25 @@ import {
 } from "lucide-react";
 
 const contactFormSchema = z.object({
+  // 04. Your Name
   name: z.string().min(2, "Name must be at least 2 characters"),
+  // 05. Your E-mail
   email: z.string().email("Invalid email address"),
-  serviceInterest: z.string().min(1, "Please select a service"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  // 01. What do you need? (multi-select)
+  needs: z.array(z.string()).min(1, "Please select at least one option"),
+  // 02. Project Budget ($)
+  budget: z.string().min(1, "Please select a budget range"),
+  // 03. Your Company
+  company: z.string().min(2, "Company name is required"),
+  // 06. Your Phone (optional)
+  phone: z.string().optional(),
+  // 07. Your Designation (optional)
+  designation: z.string().optional(),
+  // 08. How did you hear about us (optional)
+  hearAbout: z.string().optional(),
+  // Keep optional fields for backend compatibility
+  serviceInterest: z.string().optional(),
+  message: z.string().optional(),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -49,6 +64,12 @@ export default function Contact() {
     defaultValues: {
       name: "",
       email: "",
+      needs: [],
+      budget: "",
+      company: "",
+      phone: "",
+      designation: "",
+      hearAbout: "",
       serviceInterest: "",
       message: "",
     },
@@ -89,18 +110,46 @@ export default function Contact() {
     "Custom Solutions"
   ];
 
+  // Content options derived from the provided image (content only)
+  const needOptions = [
+    "Website",
+    "SEO",
+    "UI/UX",
+    "Mobile App",
+    "Web App",
+    "Others",
+  ];
+
+  const budgetOptions = [
+    "$1000",
+    "$2000",
+    "$2000+",
+  ];
+
+  const toggleNeed = (value: string) => {
+    const current = form.getValues("needs") || [];
+    const next = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value];
+    form.setValue("needs", next, { shouldValidate: true });
+  };
+
+  const selectBudget = (value: string) => {
+    form.setValue("budget", value, { shouldValidate: true });
+  };
+
   const contactInfo = [
     {
       icon: Mail,
       label: "Email",
-      value: "hello@ikonnectservice.com",
-      link: "mailto:hello@ikonnectservice.com"
+      value: "Sales@ikonnectservice.com",
+      link: "mailto:Sales@ikonnectservice.com"
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      link: "tel:+15551234567"
+      value: "+16475585637",
+      link: "tel:+16475585637"
     },
     {
       icon: MapPin,
@@ -111,7 +160,7 @@ export default function Contact() {
     {
       icon: Clock,
       label: "Business Hours",
-      value: "Mon - Fri: 9:00 AM - 6:00 PM PST",
+      value: "8:00 AM - 8:00 PM GMT-4",
       link: "#"
     }
   ];
@@ -162,16 +211,74 @@ export default function Contact() {
           <div className="lg:col-span-2">
             <Card className="hover-lift" data-testid="contact-form-card">
               <CardContent className="p-8">
-                <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
-                
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" data-testid="contact-form">
+                <h2 className="text-2xl font-bold mb-6">Tell us about your project</h2>
+
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" data-testid="contact-form">
+                  {/* 01. What do you need? */}
+                  <div>
+                    <Label className="text-sm font-semibold">01. What do you need? *</Label>
+                    <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {needOptions.map((option) => {
+                        const selected = (form.watch("needs") || []).includes(option);
+                        return (
+                          <Button
+                            key={option}
+                            type="button"
+                            variant={selected ? "default" : "outline"}
+                            className={`justify-center rounded-full ${selected ? "bg-primary text-primary-foreground" : ""}`}
+                            onClick={() => toggleNeed(option)}
+                          >
+                            {option}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                    {form.formState.errors.needs && (
+                      <p className="text-destructive text-sm mt-2">{form.formState.errors.needs.message as string}</p>
+                    )}
+                  </div>
+
+                  {/* 02. Project Budget ($) */}
+                  <div>
+                    <Label className="text-sm font-semibold">02. Project Budget ($) *</Label>
+                    <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+                      {budgetOptions.map((option) => {
+                        const selected = form.watch("budget") === option;
+                        return (
+                          <Button
+                            key={option}
+                            type="button"
+                            variant={selected ? "default" : "outline"}
+                            className={`justify-center rounded-xl ${selected ? "bg-chart-2 text-primary-foreground" : ""}`}
+                            onClick={() => selectBudget(option)}
+                          >
+                            {option}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                    {form.formState.errors.budget && (
+                      <p className="text-destructive text-sm mt-2">{form.formState.errors.budget.message as string}</p>
+                    )}
+                  </div>
+
+                  {/* 03. Your Company */}
+                  <div>
+                    <Label htmlFor="company">03. Your Company *</Label>
+                    <Input id="company" {...form.register("company")} placeholder="Company name" />
+                    {form.formState.errors.company && (
+                      <p className="text-destructive text-sm mt-1">{form.formState.errors.company.message}</p>
+                    )}
+                  </div>
+
+                  {/* 04. Your Name & 05. Your E-mail */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name">Full Name *</Label>
+                      <Label htmlFor="name">04. Your Name *</Label>
                       <Input
                         id="name"
                         {...form.register("name")}
-                        placeholder="Your full name"
+                        placeholder="Full name"
                         data-testid="input-name"
                       />
                       {form.formState.errors.name && (
@@ -180,7 +287,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <Label htmlFor="email">Email Address *</Label>
+                      <Label htmlFor="email">05. Your E-mail *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -194,42 +301,55 @@ export default function Contact() {
                     </div>
                   </div>
 
+                  {/* 06. Your Phone */}
                   <div>
-                    <Label htmlFor="serviceInterest">Service Interest *</Label>
-                    <Select onValueChange={(value) => form.setValue("serviceInterest", value)} data-testid="select-service">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a service you're interested in" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {services.map((service) => (
-                          <SelectItem key={service} value={service}>
-                            {service}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {form.formState.errors.serviceInterest && (
-                      <p className="text-destructive text-sm mt-1">{form.formState.errors.serviceInterest.message}</p>
-                    )}
+                    <Label htmlFor="phone">06. Your Phone</Label>
+                    <Input
+                      id="phone"
+                      {...form.register("phone")}
+                      placeholder="Contact number"
+                      data-testid="input-phone"
+                    />
                   </div>
 
+                  {/* 07. Your Designation */}
                   <div>
-                    <Label htmlFor="message">Project Details *</Label>
+                    <Label htmlFor="designation">07. Your Designation</Label>
+                    <Input
+                      id="designation"
+                      {...form.register("designation")}
+                      placeholder="Designation"
+                      data-testid="input-designation"
+                    />
+                  </div>
+
+                  {/* 08. How did you hear about us */}
+                  <div>
+                    <Label htmlFor="hearAbout">08. How did you hear about us</Label>
+                    <Input
+                      id="hearAbout"
+                      {...form.register("hearAbout")}
+                      placeholder="How did you hear about us"
+                      data-testid="input-hear-about"
+                    />
+                  </div>
+
+                  {/* 09. Project Details - optional */}
+                  <div>
+                    <Label htmlFor="message">09. Project Details</Label>
                     <Textarea
                       id="message"
                       {...form.register("message")}
-                      placeholder="Tell us about your project, goals, timeline, and any specific requirements..."
-                      rows={6}
+                      placeholder="Project Details"
+                      rows={5}
                       data-testid="textarea-message"
                     />
-                    {form.formState.errors.message && (
-                      <p className="text-destructive text-sm mt-1">{form.formState.errors.message.message}</p>
-                    )}
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    size="lg" 
+                  {/* Submit button */}
+                  <Button
+                    type="submit"
+                    size="lg"
                     className="w-full glow-effect"
                     disabled={submitContact.isPending}
                     data-testid="submit-contact-form"
@@ -237,12 +357,12 @@ export default function Contact() {
                     {submitContact.isPending ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
-                        Sending...
+                        Submitting...
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5 mr-2" />
-                        Send Message
+                        Submit
                       </>
                     )}
                   </Button>

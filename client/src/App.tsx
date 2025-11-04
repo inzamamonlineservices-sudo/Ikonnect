@@ -20,6 +20,8 @@ import Contact from "@/pages/Contact";
 import Admin from "@/pages/Admin";
 import ClientPortal from "@/pages/ClientPortal";
 import NotFound from "@/pages/not-found";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
 
 function Router() {
   const [location] = useLocation();
@@ -42,6 +44,8 @@ function Router() {
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/contact" component={Contact} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/terms" component={Terms} />
         <Route path="/admin" component={Admin} />
         <Route path="/client-portal" component={ClientPortal} />
         <Route component={NotFound} />

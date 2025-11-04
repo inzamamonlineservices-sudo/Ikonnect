@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LogoSrc from "@assets/IKONNECT.jpg";
+import { removeWhiteBackground } from "@/lib/imageUtils";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -13,6 +15,33 @@ import {
 export default function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [processedLogo, setProcessedLogo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Process the JPG to remove its white background in-browser
+  useEffect(() => {
+    let mounted = true;
+    removeWhiteBackground(LogoSrc, { threshold: 245, crop: true, scale: 1.1 })
+      .then((url) => {
+        if (mounted) setProcessedLogo(url);
+      })
+      .catch(() => {
+        // Fallback: keep original
+        if (mounted) setProcessedLogo(null);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const services = [
     { name: "Data Automation", href: "/services/data-automation" },
@@ -32,15 +61,30 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
+    <header
+      className={`sticky top-0 z-50 w-full border-b border-border transition-colors duration-200 ${
+        scrolled ? "bg-white shadow-sm" : "bg-background/80 backdrop-blur-md"
+      }`}
+    >
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2" data-testid="logo-link">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">I</span>
-            </div>
-            <span className="text-xl font-bold">Ikonnect Service</span>
+            {processedLogo ? (
+              <img
+                src={processedLogo}
+                alt="Ikonnect Services Logo"
+                className="h-11 md:h-14 w-auto object-contain select-none"
+              />
+            ) : (
+              // Fallback to blend mode if processing fails
+              <img
+                src={LogoSrc}
+                alt="Ikonnect Services Logo"
+                className="h-11 md:h-14 w-auto object-contain [mix-blend-mode:multiply] select-none"
+              />
+            )}
+            <span className={`text-xl font-bold ${scrolled ? "text-black" : ""}`}>Ikonnect Service</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -49,7 +93,7 @@ export default function Header() {
               <div key={item.name}>
                 {item.hasDropdown ? (
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center text-foreground hover:text-primary transition-colors" data-testid="nav-services">
+                    <DropdownMenuTrigger className={`flex items-center transition-colors ${scrolled ? "text-black" : "text-foreground"} hover:text-primary`} data-testid="nav-services">
                       {item.name}
                       <ChevronDown className="w-4 h-4 ml-1" />
                     </DropdownMenuTrigger>
@@ -66,7 +110,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href}
-                    className={`text-foreground hover:text-primary transition-colors ${
+                    className={`${scrolled ? "text-black" : "text-foreground"} hover:text-primary transition-colors ${
                       location === item.href ? "text-primary" : ""
                     }`}
                     data-testid={`nav-${item.name.toLowerCase()}`}

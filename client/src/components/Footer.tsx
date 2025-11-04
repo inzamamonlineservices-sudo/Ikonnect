@@ -172,13 +172,10 @@ export default function Footer() {
               <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors text-sm" data-testid="footer-terms">
                 Terms of Service
               </Link>
-              <Link href="/cookies" className="text-muted-foreground hover:text-primary transition-colors text-sm" data-testid="footer-cookies">
-                Cookie Policy
-              </Link>
             </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+         </div>
+       </div>
+     </div>
+   </footer>
   );
 }

@@ -137,17 +137,18 @@ export default function Home() {
               We specialize in transforming complex business challenges into streamlined digital solutions 
               that drive measurable results and sustainable growth.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            {/* Feature list: aligned text start with fixed icon column; vertical on mobile, single row on md+ */}
+            <div className="mx-auto max-w-3xl text-left flex flex-col md:flex-row md:justify-center md:gap-8">
               {[
-                { icon: Lightbulb, text: "AI-Powered Solutions", color: "text-primary" },
-                { icon: CheckCircle, text: "Proven Results", color: "text-chart-2" },
-                { icon: Star, text: "Expert Team", color: "text-chart-3" }
+                { icon: Lightbulb, text: "AI-Powered Solutions", color: "text-primary", bg: "bg-primary/20" },
+                { icon: CheckCircle, text: "Proven Results", color: "text-chart-2", bg: "bg-chart-2/20" },
+                { icon: Star, text: "Expert Team", color: "text-chart-3", bg: "bg-chart-3/20" }
               ].map((item, index) => (
-                <div key={index} className="flex items-center" data-testid={`feature-${index}`}>
-                  <div className={`w-12 h-12 bg-${item.color.split('-')[1]}/20 rounded-full flex items-center justify-center mr-4`}>
-                    <item.icon className={`w-6 h-6 ${item.color}`} />
+                <div key={index} className="grid grid-cols-[40px_1fr] items-center gap-2 mb-3 md:mb-0" data-testid={`feature-${index}`}>
+                  <div className={`w-10 h-10 ${item.bg} rounded-full flex items-center justify-center`}>
+                    <item.icon className={`w-5 h-5 ${item.color}`} />
                   </div>
-                  <span className="text-lg font-medium">{item.text}</span>
+                  <span className="text-lg font-medium text-foreground text-left">{item.text}</span>
                 </div>
               ))}
             </div>
@@ -305,23 +306,33 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Button size="lg" className="glow-effect hover:scale-105 transition-all duration-300" asChild data-testid="cta-primary">
+              <Button
+                size="lg"
+                className="glow-effect hover:scale-105 transition-all duration-300 w-[300px] h-12 rounded-xl"
+                asChild
+                data-testid="cta-primary"
+              >
                 <Link href="/contact">Start Your Project Today</Link>
               </Button>
-              <Button variant="outline" size="lg" data-testid="cta-secondary">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-[300px] h-12 rounded-xl"
+                data-testid="cta-secondary"
+              >
                 Schedule a Free Consultation
               </Button>
             </div>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-muted-foreground">
+            <div className="mx-auto max-w-3xl text-left text-muted-foreground flex flex-col md:flex-row md:justify-center md:gap-8">
               {[
                 "Free Initial Consultation",
                 "Custom Solution Design", 
                 "24/7 Support"
               ].map((feature, index) => (
-                <div key={index} className="flex items-center" data-testid={`cta-feature-${index}`}>
-                  <CheckCircle className="w-5 h-5 text-chart-2 mr-2" />
-                  {feature}
+                <div key={index} className="grid grid-cols-[28px_1fr] items-center gap-2 mb-3 md:mb-0" data-testid={`cta-feature-${index}`}>
+                  <CheckCircle className="w-5 h-5 text-chart-2" />
+                  <span className="text-left">{feature}</span>
                 </div>
               ))}
             </div>

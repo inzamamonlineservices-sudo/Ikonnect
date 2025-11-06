@@ -16,7 +16,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import {
   Mail,
@@ -77,8 +76,33 @@ export default function Contact() {
 
   const submitContact = useMutation({
     mutationFn: async (data: ContactFormData) => {
-      const response = await apiRequest("POST", "/api/contact", data);
-      return response.json();
+      const formId = import.meta.env.VITE_FORMSPREE_FORM_ID;
+      if (!formId) {
+        throw new Error("Formspree form ID not set. Add VITE_FORMSPREE_FORM_ID to your environment.");
+      }
+
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("needs", (data.needs || []).join(", "));
+      formData.append("budget", data.budget);
+      formData.append("company", data.company);
+      if (data.phone) formData.append("phone", data.phone);
+      if (data.designation) formData.append("designation", data.designation);
+      if (data.hearAbout) formData.append("hearAbout", data.hearAbout);
+      if (data.message) formData.append("message", data.message);
+
+      const res = await fetch(`https://formspree.io/f/${formId}`, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const msg = (json?.errors && json.errors[0]?.message) || res.statusText || "Submission failed";
+        throw new Error(msg);
+      }
+      return json;
     },
     onSuccess: () => {
       toast({
@@ -86,7 +110,7 @@ export default function Contact() {
         description: "We'll get back to you within 24 hours.",
       });
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ["/api/contact"] });
+      // No query to invalidate for Formspree submission
     },
     onError: (error: any) => {
       toast({

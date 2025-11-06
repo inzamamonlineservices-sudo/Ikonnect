@@ -1,4 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { getJson, postJson, createMockResponse } from "./staticApi";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -12,6 +13,12 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  // Intercept API calls for a static site
+  if (url.startsWith("/api/")) {
+    const result = method.toUpperCase() === "GET" ? await getJson(url) : await postJson(url, data);
+    return createMockResponse(result, 200);
+  }
+
   const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
@@ -29,14 +36,16 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
-      credentials: "include",
-    });
+    const url = queryKey.join("/") as string;
+    if (url.startsWith("/api/")) {
+      // Serve from static API without network
+      return await getJson(url);
+    }
 
+    const res = await fetch(url, { credentials: "include" });
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {
       return null;
     }
-
     await throwIfResNotOk(res);
     return await res.json();
   };

@@ -9,7 +9,7 @@ import { registerApiRoutes } from "./api-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register new API routes
-  registerApiRoutes(app);
+  await registerApiRoutes(app);
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {

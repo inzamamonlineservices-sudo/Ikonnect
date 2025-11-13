@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import LogoSrc from "@assets/company-logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -11,6 +12,7 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const footerLogoClass = import.meta.env.VITE_FOOTER_LOGO_CLASS ?? "h-14";
 
   const subscribeNewsletter = useMutation({
     mutationFn: async (email: string) => {
@@ -83,10 +85,11 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center space-x-2 mb-6" data-testid="footer-logo">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">I</span>
-              </div>
-              <span className="text-xl font-bold text-card-foreground">Ikonnect Service</span>
+              <img
+                src={LogoSrc}
+                alt="Ikonnect Services Logo"
+                className={`w-auto object-contain [mix-blend-mode:multiply] select-none ${footerLogoClass}`}
+              />
             </Link>
             <p className="text-muted-foreground mb-6 leading-relaxed">
               Transforming businesses through innovative digital solutions, AI-powered automation, and cutting-edge web technologies.

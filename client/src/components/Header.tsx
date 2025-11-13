@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LogoSrc from "@assets/IKONNECT SERVICE header logo.png";
+import LogoSrc from "@assets/company-logo.png";
 import { removeWhiteBackground } from "@/lib/imageUtils";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -74,14 +74,14 @@ export default function Header() {
               <img
                 src={processedLogo}
                 alt="Ikonnect Services Logo"
-                className="h-11 md:h-14 w-auto object-contain select-none"
+                className="h-14 md:h-20 w-auto object-contain select-none"
               />
             ) : (
               // Fallback to blend mode if processing fails
               <img
                 src={LogoSrc}
                 alt="Ikonnect Services Logo"
-                className="h-11 md:h-14 w-auto object-contain [mix-blend-mode:multiply] select-none"
+                className="h-12 md:h-16 w-auto object-contain [mix-blend-mode:multiply] select-none"
               />
             )}
           </Link>

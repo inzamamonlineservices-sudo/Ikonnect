@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_FORMSPREE_FORM_ID?: string;
   readonly VITE_GEMINI_API_KEY?: string;
   readonly VITE_USE_STATIC_API?: string;
+  readonly VITE_FOOTER_LOGO_CLASS?: string;
 }
 
 interface ImportMeta {

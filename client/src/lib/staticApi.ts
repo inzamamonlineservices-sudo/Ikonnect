@@ -2,9 +2,9 @@ import type {
   PortfolioItem,
   Testimonial,
   BlogPost,
+  PortfolioItem,
+  BlogPost,
   AnalyticsEvent,
-  ChatConversation,
-  InsertAnalyticsEvent,
 } from "@shared/schema";
 
 // In-memory static data for a serverless site

@@ -12,7 +12,7 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const footerLogoClass = import.meta.env.VITE_FOOTER_LOGO_CLASS ?? "h-21";
+  const footerLogoClass = import.meta.env.VITE_FOOTER_LOGO_CLASS ?? "h-15";
 
   const subscribeNewsletter = useMutation({
     mutationFn: async (email: string) => {

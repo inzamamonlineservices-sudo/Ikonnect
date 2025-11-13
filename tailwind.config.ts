@@ -1,4 +1,28 @@
 import type { Config } from "tailwindcss";
+import fs from "fs";
+import path from "path";
+
+// Read env-driven Tailwind classes from .env.local so they are always generated.
+const envPath = path.resolve(__dirname, "client/.env.local");
+let envHeaderLogoClass = "";
+let envFooterLogoClass = "";
+try {
+  if (fs.existsSync(envPath)) {
+    const contents = fs.readFileSync(envPath, "utf8");
+    for (const line of contents.split(/\r?\n/)) {
+      const [key, ...rest] = line.split("=");
+      const value = rest.join("=").trim();
+      if (key === "VITE_HEADER_LOGO_CLASS") envHeaderLogoClass = value;
+      if (key === "VITE_FOOTER_LOGO_CLASS") envFooterLogoClass = value;
+    }
+  }
+} catch {}
+
+// Split classes on whitespace, keep only truthy tokens
+const safelistLogoClasses = [
+  ...envHeaderLogoClass.split(/\s+/),
+  ...envFooterLogoClass.split(/\s+/),
+].filter(Boolean);
 
 export default {
   darkMode: ["class"],
@@ -103,4 +127,6 @@ export default {
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  // Ensure env-provided classes like `h-[21px]` or `md:h-20` are included
+  safelist: safelistLogoClasses,
 } satisfies Config;

@@ -31,16 +31,18 @@ import {
 } from "lucide-react";
 
 const contactFormSchema = z.object({
-  // 04. Your Name
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  // 05. Your E-mail
-  email: z.string().email("Invalid email address"),
-  // 01. What do you need? (multi-select)
-  needs: z.array(z.string()).min(1, "Please select at least one option"),
-  // 02. Project Budget ($)
-  budget: z.string().min(1, "Please select a budget range"),
+  // 04. Your Name (optional; if provided, min 2)
+  name: z.string().min(2, "Name must be at least 2 characters").optional(),
+  // 05. Your E-mail (optional; if provided, must be valid)
+  email: z.string().email("Invalid email address").optional(),
+  // 01. What do you need? (optional multi-select)
+  needs: z.array(z.string()).optional(),
+  // 02. Project Budget ($) (optional)
+  budget: z.string().optional(),
   // 03. Your Company
-  company: z.string().min(2, "Company name is required"),
+  company: z
+    .string()
+    .optional(),
   // 06. Your Phone (optional)
   phone: z.string().optional(),
   // 07. Your Designation (optional)
@@ -82,11 +84,22 @@ export default function Contact() {
       }
 
       const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("needs", (data.needs || []).join(", "));
-      formData.append("budget", data.budget);
-      formData.append("company", data.company);
+      if (data.name) formData.append("name", data.name);
+      if (data.email) {
+        formData.append("email", data.email);
+        formData.append("_replyto", data.email);
+      }
+      // Helpful email subject in Formspree dashboard
+      formData.append(
+        "_subject",
+        `New contact from Ikonnect Service${data.name ? ` - ${data.name}` : ""}`,
+      );
+      if (data.needs && data.needs.length) {
+        formData.append("needs", data.needs.join(", "));
+      }
+      if (data.budget) formData.append("budget", data.budget);
+      if (data.company) formData.append("company", data.company);
+      if (data.serviceInterest) formData.append("serviceInterest", data.serviceInterest);
       if (data.phone) formData.append("phone", data.phone);
       if (data.designation) formData.append("designation", data.designation);
       if (data.hearAbout) formData.append("hearAbout", data.hearAbout);
@@ -145,9 +158,9 @@ export default function Contact() {
   ];
 
   const budgetOptions = [
+    "$500 or less",
     "$1000",
-    "$2000",
-    "$2000+",
+    "$2000 or above",
   ];
 
   const toggleNeed = (value: string) => {
@@ -178,7 +191,7 @@ export default function Contact() {
     {
       icon: MapPin,
       label: "Address",
-      value: "123 Innovation Street, Tech District, CA 90210",
+      value: "284 Awan Town, Stop Near Al-Falah Bank, Main Multan Road, Lahore, Pakistan",
       link: "#"
     },
     {
@@ -240,7 +253,7 @@ export default function Contact() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" data-testid="contact-form">
                   {/* 01. What do you need? */}
                   <div>
-                    <Label className="text-sm font-semibold">01. What do you need? *</Label>
+                    <Label className="text-sm font-semibold">01. What do you need?</Label>
                     <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-3">
                       {needOptions.map((option) => {
                         const selected = (form.watch("needs") || []).includes(option);
@@ -264,7 +277,7 @@ export default function Contact() {
 
                   {/* 02. Project Budget ($) */}
                   <div>
-                    <Label className="text-sm font-semibold">02. Project Budget ($) *</Label>
+                    <Label className="text-sm font-semibold">02. Project Budget ($)</Label>
                     <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
                       {budgetOptions.map((option) => {
                         const selected = form.watch("budget") === option;
@@ -288,17 +301,18 @@ export default function Contact() {
 
                   {/* 03. Your Company */}
                   <div>
-                    <Label htmlFor="company">03. Your Company *</Label>
-                    <Input id="company" {...form.register("company")} placeholder="Company name" />
-                    {form.formState.errors.company && (
-                      <p className="text-destructive text-sm mt-1">{form.formState.errors.company.message}</p>
-                    )}
+                    <Label htmlFor="company">03. Your Company</Label>
+                        <Input
+                      id="company"
+                      {...form.register("company")}
+                      placeholder=" Your Company"
+                      data-testid="input-company" />
                   </div>
 
                   {/* 04. Your Name & 05. Your E-mail */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name">04. Your Name *</Label>
+                      <Label htmlFor="name">04. Your Name</Label>
                       <Input
                         id="name"
                         {...form.register("name")}
@@ -311,7 +325,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <Label htmlFor="email">05. Your E-mail *</Label>
+                      <Label htmlFor="email">05. Your E-mail</Label>
                       <Input
                         id="email"
                         type="email"
@@ -374,7 +388,7 @@ export default function Contact() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full glow-effect"
+                    className="w-full glow-effect bg-[#ffffff] text-[#151515] border border-border hover:bg-[#f2f2f2]"
                     disabled={submitContact.isPending}
                     data-testid="submit-contact-form"
                   >
@@ -478,10 +492,7 @@ export default function Contact() {
                       Explore Our Services
                     </a>
                   </Button>
-                  <Button variant="outline" className="w-full justify-start" data-testid="quick-action-call">
-                    <Phone className="w-4 h-4 mr-2" />
-                    Schedule a Call
-                  </Button>
+                  {/* Removed Schedule a Call button per request */}
                 </div>
               </CardContent>
             </Card>

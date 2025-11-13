@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Twitter, Linkedin, Github, Instagram } from "lucide-react";
+import { Twitter, Linkedin, Github, Instagram, Facebook } from "lucide-react";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -42,10 +42,10 @@ export default function Footer() {
   };
 
   const services = [
-    { name: "Data Automation", href: "/services/data-automation" },
+    { name: "AI & Data Automation", href: "/services/ai-&-data-automation" },
     { name: "Web Development", href: "/services/web-development" },
-    { name: "AI Chatbots", href: "/services/ai-chatbots" },
-    { name: "Web Extraction", href: "/services/web-extraction" },
+    { name: "AI Chatbots & Agents", href: "/services/ai-chatbots-&-agents" },
+    { name: "Data Analysis & Extraction", href: "/services/web-extraction" },
     { name: "Graphic Design", href: "/services/graphic-design" },
   ];
 
@@ -53,15 +53,27 @@ export default function Footer() {
     { name: "About Us", href: "/about" },
     { name: "Portfolio", href: "/portfolio" },
     { name: "Blog", href: "/blog" },
-    { name: "Careers", href: "/careers" },
+  
     { name: "Contact", href: "/contact" },
   ];
 
   const socialLinks = [
-    { name: "Twitter", href: "#", icon: Twitter },
-    { name: "LinkedIn", href: "#", icon: Linkedin },
-    { name: "GitHub", href: "#", icon: Github },
-    { name: "Instagram", href: "#", icon: Instagram },
+    {
+      name: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61582931973311",
+      icon: Facebook,
+    },
+    {
+      name: "LinkedIn",
+      href: "https://www.linkedin.com/company/ikonnect-service/?viewAsMember=true",
+      icon: Linkedin,
+    },
+  
+    {
+      name: "Instagram",
+      href: "https://www.instagram.com/ikonnect.service/",
+      icon: Instagram,
+    },
   ];
 
   return (
@@ -163,7 +175,7 @@ export default function Footer() {
         <div className="border-t border-border pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <p className="text-muted-foreground text-sm">
-              © 2024 Ikonnect Service. All rights reserved.
+              © 2025 Ikonnect Service. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors text-sm" data-testid="footer-privacy">

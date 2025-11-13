@@ -23,8 +23,8 @@ export default function ServiceDetail() {
   const serviceId = params?.service;
 
   const services: Record<string, any> = {
-    "data-automation": {
-      name: "Data Automation",
+    "ai-&-data-automation": {
+      name: "AI & Data Automation",
       description: "Streamline your workflows with intelligent data processing, automated reporting, and seamless integrations that save time and reduce errors.",
       longDescription: "Transform your business operations with our comprehensive data automation solutions. We eliminate manual processes, reduce errors, and provide valuable insights through automated data collection, processing, and reporting systems. Our solutions scale with your business and integrate seamlessly with your existing infrastructure.",
       icon: Database,
@@ -125,8 +125,8 @@ export default function ServiceDetail() {
         "Learning Management Systems"
       ]
     },
-    "ai-chatbots": {
-      name: "AI Chatbots & Integration",
+    "ai-chatbots-&-agents": {
+      name: "AI Chatbots & Agents",
       description: "Intelligent conversational AI solutions that enhance customer service, automate support, and integrate seamlessly with your systems.",
       longDescription: "Revolutionize your customer support with AI-powered chatbots that understand context, provide accurate responses, and learn from every interaction. Our solutions integrate with your existing systems to provide 24/7 support while reducing costs and improving customer satisfaction.",
       icon: MessageSquare,
@@ -177,7 +177,7 @@ export default function ServiceDetail() {
       ]
     },
     "web-extraction": {
-      name: "Web Extraction",
+      name: "Data Extraction & Analysis",
       description: "Advanced web scraping and data extraction solutions to gather, process, and analyze valuable information from any online source.",
       longDescription: "Unlock the power of web data with our sophisticated extraction tools. We help you gather competitive intelligence, monitor market trends, and automate data collection from any online source while respecting website terms and implementing robust anti-detection systems.",
       icon: Search,

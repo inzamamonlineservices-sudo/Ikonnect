@@ -1,7 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
+import Badarpic from "@/assets/Badarpic.png";
+import OmerPic from "@/assets/omer Pic (1).png";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import Inzamampic from "@/assets/Inzamam pic.png";
+import AbdullahPic from "@/assets/Abdullah Pic.png";
+import MoazamPic from "@/assets/Moazam Pic (1).png";
+import TalhaPic from "@/assets/talha Pic (2).png";
 import {
   Users,
   Target,
@@ -19,39 +25,40 @@ import {
 export default function About() {
   const teamMembers = [
     {
-      name: "Alex Johnson",
-      position: "CEO & Founder",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "Inzamam",
+      position: "CEO & Co-Founder",
+      image: Inzamampic,
       bio: "Visionary leader with 10+ years in digital innovation and AI solutions."
     },
     {
-      name: "Sarah Chen",
-      position: "CTO",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "Badar Ud Duja",
+      position: "Director of Operations",
+      image: Badarpic,
       bio: "Technical expert specializing in scalable architectures and automation systems."
     },
     {
-      name: "Marcus Rodriguez",
-      position: "Lead Developer",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "Moazam Feroz",
+      position: "Creative Director",
+      image: MoazamPic,
       bio: "Full-stack developer passionate about creating exceptional user experiences."
     },
     {
-      name: "Emily Zhang",
-      position: "Design Director",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "Abdullah Fida",
+      position: "Website Developer",
+      image: AbdullahPic,
       bio: "Creative director with expertise in brand identity and user interface design."
     },
     {
-      name: "David Kim",
-      position: "AI Specialist",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "Omer Daraz",
+      position: "Full Stack Developer",
+      image: OmerPic,
+      
       bio: "AI/ML engineer focused on developing intelligent automation solutions."
     },
     {
-      name: "Lisa Thompson",
-      position: "Project Manager",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "Talha Ahmed",
+      position: "SEO Expert",
+      image: TalhaPic,
       bio: "Agile project manager ensuring seamless delivery and client satisfaction."
     }
   ];
@@ -106,7 +113,8 @@ export default function About() {
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6" data-testid="about-title">
               Driving <span className="gradient-text">Digital Innovation</span><br/>
-              Since 2019
+              Since 2022
+              
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8" data-testid="about-description">
               We're a team of passionate technologists, designers, and strategists dedicated to transforming 
@@ -226,7 +234,7 @@ export default function About() {
                   <img 
                     src={member.image} 
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="fit-to-screen object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <CardContent className="p-6">
@@ -255,7 +263,7 @@ export default function About() {
                 <CardContent className="p-8">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-card-foreground">The Beginning (2019)</h3>
+                      <h3 className="text-2xl font-bold mb-4 text-card-foreground">The Beginning (2022)</h3>
                       <p className="text-muted-foreground leading-relaxed">
                         Ikonnect Service was founded with a simple yet ambitious vision: to make advanced technology 
                         accessible to businesses of all sizes. Starting as a small team of passionate developers and designers, 

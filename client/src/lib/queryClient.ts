@@ -13,8 +13,10 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  // Intercept API calls for a static site
-  if (url.startsWith("/api/")) {
+  // Intercept API calls for a static site unless served from the server (port 5000)
+  const isApi = url.startsWith("/api/");
+  const useStatic = import.meta.env.VITE_USE_STATIC_API !== "false"; // default to static
+  if (isApi && useStatic) {
     const result = method.toUpperCase() === "GET" ? await getJson(url) : await postJson(url, data);
     return createMockResponse(result, 200);
   }
@@ -37,8 +39,8 @@ export const getQueryFn: <T>(options: {
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
     const url = queryKey.join("/") as string;
-    if (url.startsWith("/api/")) {
-      // Serve from static API without network
+    const useStatic = import.meta.env.VITE_USE_STATIC_API !== "false"; // default to static
+    if (url.startsWith("/api/") && useStatic) {
       return await getJson(url);
     }
 

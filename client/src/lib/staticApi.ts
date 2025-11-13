@@ -244,18 +244,37 @@ export async function postJson(url: string, body: any) {
 
   if (path === "/api/chat") {
     const conversationId = `conv-${Date.now()}`;
-    const response =
-      "Thanks for reaching out! Our team offers data automation, web development, AI chatbots, and more. Would you like to schedule a consultation or learn about pricing?";
+    const sessionId = body?.sessionId || "";
+    const userMessage = body?.message || "";
+
+    // Build conversation history from in-memory static store
+    const conversationHistory = chatConversations
+      .filter(c => c.sessionId === sessionId)
+      .flatMap(c => ([
+        { role: 'user' as const, content: c.userQuery },
+        { role: 'assistant' as const, content: c.botResponse },
+      ]));
+
+    const messages = [
+      ...conversationHistory,
+      { role: 'user' as const, content: userMessage },
+    ];
+
+    // Dynamically import the client Gemini driver to avoid global imports
+    const { generateChatResponseClient } = await import("./geminiClient");
+    const response = await generateChatResponseClient(messages, body?.context);
+
     chatConversations.push({
       id: conversationId,
-      sessionId: body?.sessionId || "",
-      userQuery: body?.message || "",
+      sessionId,
+      userQuery: userMessage,
       botResponse: response,
       context: body?.context || {},
       satisfaction: null,
       resolved: false,
       createdAt: new Date(),
     } as ChatConversation);
+
     return { response, conversationId };
   }
 

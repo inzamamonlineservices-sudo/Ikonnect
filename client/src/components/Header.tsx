@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LogoSrc from "@assets/IKONNECT.jpg";
+import LogoSrc from "@assets/IKONNECT SERVICE header logo.png";
 import { removeWhiteBackground } from "@/lib/imageUtils";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -44,10 +44,10 @@ export default function Header() {
   }, []);
 
   const services = [
-    { name: "Data Automation", href: "/services/data-automation" },
+    { name: "AI & Data Automation", href: "/services/ai-&-data-automation" },
     { name: "Web Development", href: "/services/web-development" },
-    { name: "AI Chatbots", href: "/services/ai-chatbots" },
-    { name: "Web Extraction", href: "/services/web-extraction" },
+    { name: "AI Chatbots & Agents", href: "/services/ai-chatbots-&-agents" },
+    { name: "Data Extraction & Analysis", href: "/services/web-extraction" },
     { name: "Graphic Design", href: "/services/graphic-design" },
   ];
 
@@ -84,7 +84,6 @@ export default function Header() {
                 className="h-11 md:h-14 w-auto object-contain [mix-blend-mode:multiply] select-none"
               />
             )}
-            <span className={`text-xl font-bold ${scrolled ? "text-black" : ""}`}>Ikonnect Service</span>
           </Link>
 
           {/* Desktop Navigation */}

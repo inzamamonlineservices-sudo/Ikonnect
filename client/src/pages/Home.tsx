@@ -28,29 +28,29 @@ export default function Home() {
 
   const services = [
     {
-      name: "Data Automation",
-      description: "Streamline your workflows with intelligent data processing, automated reporting, and seamless integrations that save time and reduce errors.",
+      name: "AI & Data Automation",
+      description: "Streamline repetitive business tasks through intelligent automation. Save time, cut costs, and improve accuracy by transforming manual processes into smart, data‑driven workflows.",
       icon: Database,
       color: "text-primary",
-      href: "/services/data-automation"
+      href: "/services/ai-&-data-automation"
     },
     {
       name: "Web Development",
-      description: "Custom web applications built with modern technologies, optimized for performance, scalability, and exceptional user experiences.",
+      description: "Build fast, secure, and scalable websites that drive engagement and sales. From stunning designs to full‑stack solutions, our development services help your brand stand out and convert effectively.",
       icon: Code,
       color: "text-chart-2",
       href: "/services/web-development"
     },
     {
-      name: "AI Chatbots & Integration",
-      description: "Intelligent conversational AI solutions that enhance customer service, automate support, and integrate seamlessly with your systems.",
+      name: "AI Chatbots & Agents",
+      description: "Enhance customer experience with intelligent chatbots and virtual agents. Automate support, boost engagement, and generate leads 24/7 with natural, human‑like AI interactions.",
       icon: MessageSquare,
       color: "text-chart-3",
-      href: "/services/ai-chatbots"
+      href: "/services/ai-chatbots-&-agents"
     },
     {
-      name: "Web Extraction",
-      description: "Advanced web scraping and data extraction solutions to gather, process, and analyze valuable information from any online source.",
+      name: "Data Extration & Analysis",
+      description: "Unlock valuable insights and real‑time data from any source. We help businesses make informed decisions, track competitors, and discover hidden growth opportunities with clean, structured data.",
       icon: Search,
       color: "text-chart-4",
       href: "/services/web-extraction"
@@ -67,7 +67,7 @@ export default function Home() {
   const stats = [
     { label: "Projects Delivered", value: "500+" },
     { label: "Happy Clients", value: "200+" },
-    { label: "Years Experience", value: "5+" },
+    { label: "Years Experience", value: "3+" },
     { label: "Satisfaction Rate", value: "99%" }
   ];
 
@@ -107,10 +107,7 @@ export default function Home() {
               <Button size="lg" className="glow-effect hover:scale-105 transition-all duration-300" asChild data-testid="hero-cta-primary">
                 <Link href="/contact">Start Your Project</Link>
               </Button>
-              <Button variant="outline" size="lg" className="flex items-center" data-testid="hero-cta-secondary">
-                <Play className="w-5 h-5 mr-2" />
-                Watch Demo
-              </Button>
+
             </div>
             
             {/* Stats */}
@@ -314,14 +311,7 @@ export default function Home() {
               >
                 <Link href="/contact">Start Your Project Today</Link>
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-[300px] h-12 rounded-xl"
-                data-testid="cta-secondary"
-              >
-                Schedule a Free Consultation
-              </Button>
+              
             </div>
             
             <div className="mx-auto max-w-3xl text-left text-muted-foreground flex flex-col md:flex-row md:justify-center md:gap-8">

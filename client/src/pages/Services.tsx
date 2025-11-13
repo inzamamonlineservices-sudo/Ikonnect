@@ -18,7 +18,7 @@ import {
 export default function Services() {
   const services = [
     {
-      id: "data-automation",
+      id: "ai-&-data-automation",
       name: "Data Automation",
       description: "Streamline your workflows with intelligent data processing, automated reporting, and seamless integrations that save time and reduce errors.",
       longDescription: "Transform your business operations with our comprehensive data automation solutions. We help you eliminate manual processes, reduce errors, and gain valuable insights through automated data collection, processing, and reporting systems.",
@@ -64,8 +64,8 @@ export default function Services() {
       technologies: ["React", "Node.js", "Next.js", "TypeScript", "Tailwind CSS"]
     },
     {
-      id: "ai-chatbots",
-      name: "AI Chatbots & Integration",
+      id: "ai-chatbots-&-agents",
+      name: "AI Chatbots & Agents",
       description: "Intelligent conversational AI solutions that enhance customer service, automate support, and integrate seamlessly with your systems.",
       longDescription: "Revolutionize your customer support with AI-powered chatbots that understand context, provide accurate responses, and learn from every interaction to continuously improve service quality.",
       icon: MessageSquare,
@@ -156,7 +156,7 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {services.map((service, index) => (
             <Card key={service.id} className="service-card hover-lift cursor-pointer group" data-testid={`service-card-${index}`}>
-              <CardContent className="p-8">
+              <CardContent className="p-8 bg-[#ffffff]">
                 <div className={`w-16 h-16 bg-${service.color.split('-')[1]}/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-${service.color.split('-')[1]}/30 transition-colors`}>
                   <service.icon className={`w-8 h-8 ${service.color}`} />
                 </div>

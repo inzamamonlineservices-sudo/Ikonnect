@@ -74,7 +74,7 @@ export default function Header() {
               <img
                 src={processedLogo}
                 alt="Ikonnect Services Logo"
-                className="h-14 md:h-20 w-auto object-contain select-none"
+                className="h-16 md:h-18 w-auto object-contain select-none"
               />
             ) : (
               // Fallback to blend mode if processing fails
